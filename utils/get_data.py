@@ -3,6 +3,7 @@ from typing import List
 
 import requests
 from bs4 import BeautifulSoup
+from loguru import logger
 
 
 def get_url_from_site(site_url: str) -> List[str]:
@@ -22,7 +23,7 @@ def get_url_from_site(site_url: str) -> List[str]:
     return url_raw
 
 
-def download_from_url(url: str, save_path: str, chunk_size: int = 1024):
+def download_from_url(url: str, save_path: str, chunk_size: int = 8192):
     """Function to download a file from a given URL.
 
     Args:
@@ -57,7 +58,6 @@ def find_url(url_raw: List[str]) -> List[str]:
 
     """
 
-    regex = re.compile(r"^https://geodatamine\.fr/dump/[\w\d-]+\.[\w]+$")
+    regex = re.compile(r"^https:\/\/geodatamine\.fr\/dump\/[\w-]+geojson\.[A-Za-z]+$")
     url = [str(link) for link in url_raw if regex.match(str(link))]
-    url = list(set(url))  # Remove duplicate from list
     return url
