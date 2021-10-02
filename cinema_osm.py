@@ -1,3 +1,5 @@
+#!./paylead/bin/python3.8
+
 from loguru import logger
 
 from utils.get_data import download_from_url, find_url, get_url_from_site
