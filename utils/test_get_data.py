@@ -1,4 +1,6 @@
 import pytest
+import requests
+import responses
 from get_data import find_url
 
 
@@ -36,3 +38,16 @@ def test_if_fail_to_find_good_url():
         assert len(result) == 0
     except Exception as error:
         pytest.fail(f"Failed to dump all bad url. Error: {error}.")
+
+
+def test_connection_to_site_for_scraping():
+    responses.add(
+        responses.GET,
+        "https://www.data.gouv.fr/fr/datasets/cinemas-issus-dopenstreetmap/",
+        status=200,
+    )
+
+    resp = requests.get(
+        url="https://www.data.gouv.fr/fr/datasets/cinemas-issus-dopenstreetmap/"
+    )
+    assert resp.status_code == 200

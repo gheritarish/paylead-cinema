@@ -3,7 +3,6 @@ from typing import List
 
 import requests
 from bs4 import BeautifulSoup
-from loguru import logger
 
 
 def get_url_from_site(site_url: str) -> List[str]:
