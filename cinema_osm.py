@@ -1,7 +1,6 @@
 #!./paylead/bin/python3.8
 
 import argparse
-import zipfile
 
 from loguru import logger
 
