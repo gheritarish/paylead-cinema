@@ -16,4 +16,5 @@ jobs:
       run: |
         pip install -r tests-requirements.txt
         pip install -r requirements.txt
-        pytest -v --rootdir=./utils/
+        pytest -v
+      working-directory: ./utils
