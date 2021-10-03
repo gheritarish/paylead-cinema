@@ -28,5 +28,9 @@ def extract_geojson_file(geojson_file: ZipInfo, zip_file: str) -> str:
 
 
 def parse_dataset(geojson_path: str) -> gpd.GeoDataFrame:
-    cinema_data = gpd.read_file(geojson_path)
-    return cinema_data
+    try:
+        cinema_data = gpd.read_file(geojson_path)
+        return cinema_data
+    except Exception as error:
+        logger.warning(error)
+        return gpd.GeoDataFrame()
