@@ -65,12 +65,10 @@ def main():
             name = str(url.split("/")[-1])
             logger.info(name)
             download_from_url(url=url, save_path=name)
-    elif args.mode == "analyze":
         member_file = find_geojson_file_in_zip("./cinema_geojson.zip")
-        geojson_extracted_path = extract_geojson_file(
-            geojson_file=member_file, zip_file="./cinema_geojson.zip"
-        )
-        cinema_gdf = parse_dataset(geojson_path=geojson_extracted_path)
+        extract_geojson_file(geojson_file=member_file, zip_file="./cinema_geojson.zip")
+    elif args.mode == "analyze":
+        cinema_gdf = parse_dataset(geojson_path="./data.geojson")
 
         if args.theatersintown:
             number_theaters_town = cinemas_in_town(
