@@ -84,5 +84,11 @@ Biggest theater: 5412 seats at UGC Ciné Cité Strasbourg
 
 `There are 9 theaters in department 2A`
 
+## Caveats
+There are two major caveats:
+
+* In case the install didn't work, it is possible that the script doesn't execute because some packages are missing. In that case, it is always possible to manually install them with `pip install -r requirements.txt`, and by running the script with `python cinema_osm.py <your options>`.
+* The initialization might take a few minutes to process, and the analysis might take a few dozen seconds, depending on the power of your computer.
+
 ## Tests
 Tests for this code were written with pytest. There are a total of 13 tests, focused on the analysis part and the scrapping part.
