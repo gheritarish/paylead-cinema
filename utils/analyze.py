@@ -88,3 +88,15 @@ def analyze_network(data: gpd.GeoDataFrame, network_name: str):
     else:
         raise ValueError("No data for this network of theaters")
         return []
+
+
+def theaters_in_department(data: gpd.GeoDataFrame, code_department: str) -> int:
+    data["department"] = data.com_insee.apply(
+        lambda x: x[:3] if x[0] == "9" and int(x[1]) > 5 else x[:2]
+    )
+    data = data["department"].value_counts()
+    try:
+        return int(data[code_department])
+    except Exception as error:
+        logger.warning(error)
+        return 0

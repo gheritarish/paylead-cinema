@@ -4,7 +4,12 @@ import argparse
 
 from loguru import logger
 
-from utils.analyze import analyze_network, biggest_networks, cinemas_in_town
+from utils.analyze import (
+    analyze_network,
+    biggest_networks,
+    cinemas_in_town,
+    theaters_in_department,
+)
 from utils.get_data import download_from_url, find_url, get_url_from_site
 from utils.parse_dataset import (
     extract_geojson_file,
@@ -38,6 +43,12 @@ def define_args():
         help="For a given network name, returns the theater with the highest number of screens, the highest number of seats, and the number of 3D theaters",
         default=None,
     )
+    parser.add_argument(
+        "--theatersindepartment",
+        type=str,
+        help="The code of a department",
+        default=None,
+    )
     args = parser.parse_args()
     return args
 
@@ -65,7 +76,7 @@ def main():
             number_theaters_town = cinemas_in_town(
                 cinema_gdf, town_name=args.theatersintown
             )
-            logger.info(
+            print(
                 f"""There are {number_theaters_town} theaters in {args.theatersintown}."""
             )
 
@@ -74,7 +85,14 @@ def main():
                 theaters_biggest_networks = biggest_networks(
                     data=cinema_gdf, number_of_networks=args.biggestnetworks
                 )
-                logger.info(theaters_biggest_networks)
+                # print(theaters_biggest_networks)
+                for index in range(len(theaters_biggest_networks)):
+                    print(
+                        theaters_biggest_networks.index[index]
+                        + ": "
+                        + str(theaters_biggest_networks[index])
+                        + " theaters."
+                    )
             except Exception as error:
                 logger.warning(error)
 
@@ -84,15 +102,25 @@ def main():
                     data=cinema_gdf, network_name=args.analyzenetwork
                 )
                 # if network_analysis:
-                logger.info(
+                print(
                     f"""Network: {args.analyzenetwork}:\n
-                Highest number of screens: {network_analysis[1]} at {network_analysis[0]}\n
-                Biggest theater: {network_analysis[2]} seats at {network_analysis[3]}\n
-                {network_analysis[4]} 3D theaters in this network."""
+Highest number of screens: {network_analysis[1]} at {network_analysis[0]}\n
+Biggest theater: {network_analysis[2]} seats at {network_analysis[3]}\n
+{network_analysis[4]} 3D theaters in this network."""
                 )
             except Exception as error:
                 logger.warning(error)
 
+        if args.theatersindepartment:
+            try:
+                number_theaters = theaters_in_department(
+                    data=cinema_gdf, code_department=args.theatersindepartment
+                )
+                print(
+                    f"""There are {number_theaters} theaters in department {args.theatersindepartment}"""
+                )
+            except Exception as error:
+                logger.warning(error)
     else:
         logger.error("This mode doesn't exist. Available modes: initialize or analyze")
 

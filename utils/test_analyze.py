@@ -1,6 +1,11 @@
 import geopandas as gpd
 import pytest
-from analyze import analyze_network, biggest_networks, cinemas_in_town
+from analyze import (
+    analyze_network,
+    biggest_networks,
+    cinemas_in_town,
+    theaters_in_department,
+)
 
 
 @pytest.fixture
@@ -56,3 +61,21 @@ def test_analyze_existing_network(data_definition_test):
         assert type(network_analysis) is list
     except Exception as error:
         pytest.fail(f"Failed to find 5 arguments. Error: {error}.")
+
+
+def test_count_theaters_in_unexisting_department(data_definition_test):
+    data = data_definition_test
+    number_theaters = theaters_in_department(data, "921")
+    try:
+        assert number_theaters == 0
+    except Exception as error:
+        pytest.fail(f"Failed to find 0 theaters in departement 921. Error: {error}.")
+
+
+def test_count_theaters_in_paris(data_definition_test):
+    data = data_definition_test
+    number_theaters_paris = theaters_in_department(data, "75")
+    try:
+        assert number_theaters_paris == 90
+    except Exception as error:
+        pytest.fail(f"Failed to count 90 theaters in Paris. Error: {error}.")
